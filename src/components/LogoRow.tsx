@@ -1,13 +1,13 @@
-import generalCatalystLogo from "@/assets/general-catalyst-logo.png";
-import indexVenturesLogo from "@/assets/index-ventures-logo.png";
-import sequoiaLogo from "@/assets/sequoia-logo.png";
-import sheLogo from "@/assets/she-logo.png";
+import generalCatalystLogo from "@/assets/General_Catalyst_logo.png";
+import indexVenturesLogo from "@/assets/index.png";
+import sequoiaLogo from "@/assets/Sequoia_Capital.png";
+import cherryVcLogo from "@/assets/cherryvc.png";
 
 const logos = [
   { name: "General Catalyst", src: generalCatalystLogo, alt: "General Catalyst" },
   { name: "Index Ventures", src: indexVenturesLogo, alt: "Index Ventures" },
-  { name: "Sequoia", src: sequoiaLogo, alt: "Sequoia Capital" },
-  { name: "SHE", src: sheLogo, alt: "SHE" }
+  { name: "Sequoia Capital", src: sequoiaLogo, alt: "Sequoia Capital" },
+  { name: "Cherry VC", src: cherryVcLogo, alt: "Cherry VC" }
 ];
 
 export const LogoRow = () => {
@@ -25,7 +25,7 @@ export const LogoRow = () => {
             <img
               src={logo.src}
               alt={logo.alt}
-              className="h-8 w-auto object-contain filter grayscale opacity-70 hover:opacity-90 transition-opacity duration-200"
+              className="h-8 w-auto object-contain filter grayscale brightness-0 invert opacity-50 hover:opacity-70 transition-opacity duration-200"
             />
           </div>
         ))}

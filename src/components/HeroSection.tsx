@@ -119,8 +119,15 @@ export const HeroSection = () => {
                   variant="secondary"
                   size="lg"
                   className="h-14 px-8 text-lg font-semibold bg-secondary/80 backdrop-blur-sm hover:bg-secondary border border-border hover:border-primary/30 transition-all duration-200 hover:scale-105"
+                asChild
                 >
-                  Book Intro Call
+                  <a
+                    href="https://cal.com/emanuel-morhard/30min"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Book Intro Call
+                  </a>
                 </Button>
               </div>
 
