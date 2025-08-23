@@ -6,6 +6,12 @@ import { HeroToggle } from "./HeroToggle";
 import { RoleChip } from "./RoleChip";
 import { LogoRow } from "./LogoRow";
 import { Footer } from "./Footer";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 const roles = [
   "Account Executive",
@@ -15,12 +21,56 @@ const roles = [
   "Engineer"
 ];
 
+const TalentSchema = z.object({
+  role: z.string().min(1, "Please enter or select a role"),
+  linkedinUrl: z.string()
+    .url("Enter a valid LinkedIn URL")
+    .refine(v => v.includes("linkedin.com"), "Must be a LinkedIn URL")
+});
+
+type TalentForm = z.infer<typeof TalentSchema>;
+
 export const HeroSection = () => {
   const [userType, setUserType] = useState("For Talents");
-  const [roleInput, setRoleInput] = useState("");
+  const { toast } = useToast();
+  
+  const form = useForm<TalentForm>({
+    resolver: zodResolver(TalentSchema),
+    defaultValues: {
+      role: "",
+      linkedinUrl: ""
+    }
+  });
 
   const handleRoleChipClick = (role: string) => {
-    setRoleInput(role);
+    form.setValue("role", role);
+  };
+
+  const onSubmit = async (values: TalentForm) => {
+    const payload = {
+      role: values.role.trim(),
+      linkedin_url: values.linkedinUrl.trim(),
+      user_agent: navigator.userAgent,
+    };
+
+    const { error } = await supabase
+      .from("talent_submissions")
+      .insert(payload);
+
+    if (error) {
+      toast({
+        title: "Submission failed",
+        description: error.message,
+        variant: "destructive"
+      });
+      return;
+    }
+
+    toast({
+      title: "Application submitted!",
+      description: "We'll review your profile and get back to you soon."
+    });
+    form.reset();
   };
 
   return (
@@ -54,46 +104,76 @@ export const HeroSection = () => {
                 We connect top operators with VC-backed startups in Berlin, Munich, and beyond.
               </p>
 
-              {/* Role Input */}
-              <div className="max-w-md mx-auto mb-6">
-                <Input
-                  type="text"
-                  placeholder="Enter a role"
-                  value={roleInput}
-                  onChange={(e) => setRoleInput(e.target.value)}
-                  className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                />
-              </div>
+              <Form {...form}>
+                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                  {/* Role Input */}
+                  <FormField
+                    control={form.control}
+                    name="role"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <div className="max-w-md mx-auto">
+                            <Input
+                              type="text"
+                              placeholder="Enter a role"
+                              className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                              {...field}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage className="text-center" />
+                      </FormItem>
+                    )}
+                  />
 
-              {/* Role Chips */}
-              <div className="flex flex-wrap justify-center gap-3 mb-12">
-                {roles.map((role) => (
-                  <RoleChip
-                    key={role}
-                    onClick={() => handleRoleChipClick(role)}
-                  >
-                    {role}
-                  </RoleChip>
-                ))}
-              </div>
+                  {/* Role Chips */}
+                  <div className="flex flex-wrap justify-center gap-3 mb-8">
+                    {roles.map((role) => (
+                      <RoleChip
+                        key={role}
+                        onClick={() => handleRoleChipClick(role)}
+                      >
+                        {role}
+                      </RoleChip>
+                    ))}
+                  </div>
 
-              {/* CTA Buttons */}
-              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-                <Button
-                  size="lg"
-                  className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105"
-                >
-                  Find a Breakout Role
-                </Button>
-                
-                <Button
-                  variant="secondary"
-                  size="lg"
-                  className="h-14 px-8 text-lg font-semibold bg-secondary/80 backdrop-blur-sm hover:bg-secondary border border-border hover:border-primary/30 transition-all duration-200 hover:scale-105"
-                >
-                  Post Your Startup
-                </Button>
-              </div>
+                  {/* LinkedIn URL Input */}
+                  <FormField
+                    control={form.control}
+                    name="linkedinUrl"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <div className="max-w-md mx-auto">
+                            <Input
+                              type="url"
+                              placeholder="Your LinkedIn profile URL"
+                              className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                              {...field}
+                            />
+                          </div>
+                        </FormControl>
+                        <FormMessage className="text-center" />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* CTA Button */}
+                  <div className="flex justify-center mb-8">
+                    <Button
+                      type="submit"
+                      size="lg"
+                      variant="secondary"
+                      disabled={form.formState.isSubmitting}
+                      className="h-14 px-8 text-lg font-semibold bg-secondary/80 backdrop-blur-sm hover:bg-secondary border border-border hover:border-accent hover:text-accent transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                    >
+                      {form.formState.isSubmitting ? "Submitting..." : "Find a Breakout Role"}
+                    </Button>
+                  </div>
+                </form>
+              </Form>
             </>
           ) : (
             <>

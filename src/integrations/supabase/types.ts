@@ -44,6 +44,30 @@ export type Database = {
         }
         Relationships: []
       }
+      talent_submissions: {
+        Row: {
+          created_at: string
+          id: string
+          linkedin_url: string
+          role: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          linkedin_url: string
+          role: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          linkedin_url?: string
+          role?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
