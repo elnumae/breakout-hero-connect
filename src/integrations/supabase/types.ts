@@ -14,7 +14,36 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      referrals: {
+        Row: {
+          created_at: string
+          id: string
+          referrer_email: string
+          status: string
+          talent_contact: string | null
+          talent_linkedin_url: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          referrer_email: string
+          status?: string
+          talent_contact?: string | null
+          talent_linkedin_url: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          referrer_email?: string
+          status?: string
+          talent_contact?: string | null
+          talent_linkedin_url?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

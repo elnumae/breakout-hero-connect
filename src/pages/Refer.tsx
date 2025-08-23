@@ -1,14 +1,34 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Footer } from "@/components/Footer";
-import { useState } from "react";
 import { useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { supabase } from "@/integrations/supabase/client";
+import { useToast } from "@/hooks/use-toast";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+
+const ReferralSchema = z.object({
+  email: z.string().email("Enter a valid email"),
+  linkedinUrl: z.string()
+    .url("Enter a valid URL")
+    .refine(v => v.includes("linkedin.com"), "Must be a LinkedIn URL"),
+  talentContact: z.string().optional()
+});
+
+type ReferralForm = z.infer<typeof ReferralSchema>;
 
 const Refer = () => {
-  const [formData, setFormData] = useState({
-    email: "",
-    linkedinUrl: "",
-    talentContact: ""
+  const { toast } = useToast();
+  
+  const form = useForm<ReferralForm>({
+    resolver: zodResolver(ReferralSchema),
+    defaultValues: {
+      email: "",
+      linkedinUrl: "",
+      talentContact: ""
+    }
   });
 
   // Update page title and meta description for this page
@@ -20,10 +40,32 @@ const Refer = () => {
     }
   }, []);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
-    console.log("Referral submitted:", formData);
+  const onSubmit = async (values: ReferralForm) => {
+    const payload = {
+      referrer_email: values.email.trim().toLowerCase(),
+      talent_linkedin_url: values.linkedinUrl.trim(),
+      talent_contact: values.talentContact?.trim() || null,
+      user_agent: navigator.userAgent,
+    };
+
+    const { error } = await supabase
+      .from("referrals")
+      .insert(payload);
+
+    if (error) {
+      toast({
+        title: "Submission failed",
+        description: error.message,
+        variant: "destructive"
+      });
+      return;
+    }
+
+    toast({
+      title: "Referral submitted",
+      description: "Thanks! We'll review ASAP."
+    });
+    form.reset(); // allow multiple submissions
   };
 
   return (
@@ -127,49 +169,74 @@ const Refer = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Referral Form</h2>
           <p className="text-center text-muted-foreground mb-8">Simple & Short</p>
           
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <Input
-                type="email"
-                placeholder="Your email (required → for payout)"
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
-                className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                required
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Your email (required → for payout)"
+                        className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            
-            <div>
-              <Input
-                type="url"
-                placeholder="Talent's LinkedIn URL (required)"
-                value={formData.linkedinUrl}
-                onChange={(e) => setFormData({...formData, linkedinUrl: e.target.value})}
-                className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                required
+              
+              <FormField
+                control={form.control}
+                name="linkedinUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="url"
+                        placeholder="Talent's LinkedIn URL (required)"
+                        className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
-            
-            <div>
-              <Input
-                type="text"
-                placeholder="Optional: Talent Email or Phone"
-                value={formData.talentContact}
-                onChange={(e) => setFormData({...formData, talentContact: e.target.value})}
-                className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+              
+              <FormField
+                control={form.control}
+                name="talentContact"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        placeholder="Optional: Talent Email or Phone"
+                        className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-            </div>
 
-            <div className="text-center">
-              <Button
-                type="submit"
-                size="lg"
-                className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105"
-              >
-                👉 Submit Referral
-              </Button>
-            </div>
-          </form>
+              <div className="text-center">
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={form.formState.isSubmitting}
+                  className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                >
+                  {form.formState.isSubmitting ? "Submitting..." : "👉 Submit Referral"}
+                </Button>
+              </div>
+            </form>
+          </Form>
         </div>
 
         {/* Why Refer */}
