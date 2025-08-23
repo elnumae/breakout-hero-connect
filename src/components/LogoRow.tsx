@@ -1,10 +1,13 @@
+import generalCatalystLogo from "@/assets/general-catalyst-logo.png";
+import indexVenturesLogo from "@/assets/index-ventures-logo.png";
+import sequoiaLogo from "@/assets/sequoia-logo.png";
+import sheLogo from "@/assets/she-logo.png";
+
 const logos = [
-  { name: "Project A", width: "w-24" },
-  { name: "HV Capital", width: "w-20" },
-  { name: "Cherry", width: "w-16" },
-  { name: "Speedinvest", width: "w-24" },
-  { name: "Lakestar", width: "w-20" },
-  { name: "Point Nine", width: "w-20" }
+  { name: "General Catalyst", src: generalCatalystLogo, alt: "General Catalyst" },
+  { name: "Index Ventures", src: indexVenturesLogo, alt: "Index Ventures" },
+  { name: "Sequoia", src: sequoiaLogo, alt: "Sequoia Capital" },
+  { name: "SHE", src: sheLogo, alt: "SHE" }
 ];
 
 export const LogoRow = () => {
@@ -17,9 +20,13 @@ export const LogoRow = () => {
         {logos.map((logo) => (
           <div
             key={logo.name}
-            className={`${logo.width} h-8 bg-muted-foreground/20 rounded flex items-center justify-center text-xs font-medium text-muted-foreground`}
+            className="h-12 flex items-center justify-center px-4"
           >
-            {logo.name}
+            <img
+              src={logo.src}
+              alt={logo.alt}
+              className="h-8 w-auto object-contain filter grayscale opacity-70 hover:opacity-90 transition-opacity duration-200"
+            />
           </div>
         ))}
       </div>
