@@ -44,7 +44,7 @@ export const HeroSection = () => {
         <div className="max-w-4xl mx-auto text-center">
           {userType === "For Talents" ? (
             <>
-              <h1 className="text-5xl md:text-7xl font-black leading-tight mb-6">
+              <h1 className="text-5xl md:text-7xl font-semibold leading-tight mb-6">
                 Your AI-first headhunter for{" "}
                 <span className="text-electric-green">breakout</span>{" "}
                 <span className="text-electric-green">startup jobs</span> in Germany.
@@ -97,7 +97,7 @@ export const HeroSection = () => {
             </>
           ) : (
             <>
-              <h1 className="text-5xl md:text-7xl font-black leading-tight mb-6">
+              <h1 className="text-5xl md:text-7xl font-semibold leading-tight mb-6">
                 Hire your next <span className="text-electric-green">10x operator</span>{" "}
                 with AI-first speed.
               </h1>
