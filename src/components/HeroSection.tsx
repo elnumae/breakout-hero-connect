@@ -173,6 +173,16 @@ export const HeroSection = () => {
                   </div>
                 </form>
               </Form>
+
+              {/* Refer Link */}
+              <div className="text-center mt-8">
+                <Link 
+                  to="/refer"
+                  className="text-muted-foreground hover:text-muted-foreground/80 text-sm underline underline-offset-4 transition-colors"
+                >
+                  💰 Refer a friend and earn €500 →
+                </Link>
+              </div>
             </>
           ) : (
             <>
@@ -252,16 +262,6 @@ export const HeroSection = () => {
 
         {/* Logo Row */}
         <LogoRow />
-
-        {/* Refer Link */}
-        <div className="text-center mt-16">
-          <Link 
-            to="/refer"
-            className="text-electric-green hover:text-electric-green/80 text-lg font-medium underline underline-offset-4 transition-colors"
-          >
-            💰 Refer a friend and earn €500 →
-          </Link>
-        </div>
       </div>
 
       <Footer />
