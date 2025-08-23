@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { HeroToggle } from "./HeroToggle";
@@ -164,6 +165,16 @@ export const HeroSection = () => {
 
         {/* Logo Row */}
         <LogoRow />
+
+        {/* Refer Link */}
+        <div className="text-center mt-16">
+          <Link 
+            to="/refer"
+            className="text-electric-green hover:text-electric-green/80 text-lg font-medium underline underline-offset-4 transition-colors"
+          >
+            💰 Refer talent and earn €500 →
+          </Link>
+        </div>
       </div>
     </main>
   );
