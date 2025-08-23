@@ -44,6 +44,30 @@ export type Database = {
         }
         Relationships: []
       }
+      startup_submissions: {
+        Row: {
+          created_at: string
+          email: string
+          id: string
+          jd_link: string
+          user_agent: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          id?: string
+          jd_link: string
+          user_agent?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          id?: string
+          jd_link?: string
+          user_agent?: string | null
+        }
+        Relationships: []
+      }
       talent_submissions: {
         Row: {
           created_at: string

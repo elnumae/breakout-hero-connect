@@ -27,7 +27,13 @@ const TalentSchema = z.object({
     .refine(v => v.includes("linkedin.com"), "Must be a LinkedIn URL")
 });
 
+const StartupSchema = z.object({
+  jdLink: z.string().url("Enter a valid URL for your job description"),
+  email: z.string().email("Enter a valid email address")
+});
+
 type TalentForm = z.infer<typeof TalentSchema>;
+type StartupForm = z.infer<typeof StartupSchema>;
 
 export const HeroSection = () => {
   const [userType, setUserType] = useState("For Talents");
@@ -38,6 +44,14 @@ export const HeroSection = () => {
     defaultValues: {
       role: "",
       linkedinUrl: ""
+    }
+  });
+
+  const startupForm = useForm<StartupForm>({
+    resolver: zodResolver(StartupSchema),
+    defaultValues: {
+      jdLink: "",
+      email: ""
     }
   });
 
@@ -70,6 +84,33 @@ export const HeroSection = () => {
       description: "We'll review your profile and get back to you soon."
     });
     form.reset();
+  };
+
+  const onStartupSubmit = async (values: StartupForm) => {
+    const payload = {
+      jd_link: values.jdLink.trim(),
+      email: values.email.trim(),
+      user_agent: navigator.userAgent,
+    };
+
+    const { error } = await supabase
+      .from("startup_submissions")
+      .insert(payload);
+
+    if (error) {
+      toast({
+        title: "Submission failed",
+        description: error.message,
+        variant: "destructive"
+      });
+      return;
+    }
+
+    toast({
+      title: "Request submitted!",
+      description: "We'll review your JD and send you top talents soon."
+    });
+    startupForm.reset();
   };
 
   return (
@@ -186,6 +227,9 @@ export const HeroSection = () => {
             </>
           ) : (
             <>
+              {/* Logo Row - Show first in startups section */}
+              <LogoRow />
+
               <h1 className="text-5xl md:text-7xl font-semibold leading-tight mb-6">
                 Hire your next <span className="text-electric-green">10x operator</span>{" "}
                 with AI-first speed.
@@ -221,7 +265,7 @@ export const HeroSection = () => {
               </div>
 
               {/* How It Works Section */}
-              <div className="max-w-5xl mx-auto">
+              <div className="max-w-5xl mx-auto mb-16">
                 <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">How It Works</h2>
                 
                 <div className="grid md:grid-cols-3 gap-8 md:gap-12">
@@ -256,12 +300,65 @@ export const HeroSection = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Startup Form */}
+              <Form {...startupForm}>
+                <form onSubmit={startupForm.handleSubmit(onStartupSubmit)} className="space-y-8 max-w-md mx-auto">
+                  {/* JD Link Input */}
+                  <FormField
+                    control={startupForm.control}
+                    name="jdLink"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            type="url"
+                            placeholder="Share link to JD"
+                            className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-center" />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Email Input */}
+                  <FormField
+                    control={startupForm.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormControl>
+                          <Input
+                            type="email"
+                            placeholder="Your email"
+                            className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage className="text-center" />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* CTA Button */}
+                  <div className="flex justify-center">
+                    <Button
+                      type="submit"
+                      size="lg"
+                      variant="secondary"
+                      disabled={startupForm.formState.isSubmitting}
+                      className="h-14 px-8 text-lg font-semibold bg-secondary/80 backdrop-blur-sm hover:bg-secondary border border-border hover:border-accent hover:text-accent transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                    >
+                      {startupForm.formState.isSubmitting ? "Submitting..." : "Send me top talents"}
+                    </Button>
+                  </div>
+                </form>
+              </Form>
             </>
           )}
         </div>
-
-        {/* Logo Row */}
-        <LogoRow />
       </div>
 
       <Footer />
