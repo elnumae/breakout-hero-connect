@@ -14,6 +14,12 @@ const Footer = () => {
               Imprint
             </a>
             <a 
+              href="/privacy"
+              className="text-muted-foreground hover:text-primary transition-colors"
+            >
+              Privacy Policy
+            </a>
+            <a 
               href="mailto:hi@emanuelmorhard.com"
               className="text-muted-foreground hover:text-primary transition-colors"
             >
