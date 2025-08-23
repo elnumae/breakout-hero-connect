@@ -173,7 +173,7 @@ export const HeroSection = () => {
             to="/refer"
             className="text-electric-green hover:text-electric-green/80 text-lg font-medium underline underline-offset-4 transition-colors"
           >
-            Refer a friend
+            💰 Refer talent and earn €500 →
           </Link>
         </div>
       </div>
