@@ -78,7 +78,7 @@ const Refer = () => {
       <div className="relative z-10 container mx-auto px-4 py-12">
         {/* Hero Section */}
         <div className="max-w-4xl mx-auto text-center mb-16">
-          <h1 className="text-5xl md:text-7xl font-black leading-tight mb-6">
+          <h1 className="text-5xl md:text-7xl font-semibold leading-tight mb-6">
             Refer top talent. Earn{" "}
             <span className="text-electric-green">€500</span>{" "}
             with BreakoutTalents.
@@ -98,14 +98,10 @@ const Refer = () => {
 
         {/* Stats Row */}
         <div className="max-w-5xl mx-auto mb-20">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="text-3xl font-black text-electric-green mb-2">€500</div>
               <p className="text-sm text-muted-foreground">per successful hire</p>
-            </div>
-            <div className="text-center">
-              <div className="text-3xl font-black text-electric-green mb-2">30</div>
-              <p className="text-sm text-muted-foreground">days typical payout time</p>
             </div>
             <div className="text-center">
               <div className="text-3xl font-black text-electric-green mb-2">2</div>
