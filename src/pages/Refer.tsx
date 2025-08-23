@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Footer } from "@/components/Footer";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const Refer = () => {
   const [formData, setFormData] = useState({
@@ -8,6 +10,15 @@ const Refer = () => {
     linkedinUrl: "",
     talentContact: ""
   });
+
+  // Update page title and meta description for this page
+  useEffect(() => {
+    document.title = "Refer & Earn €500 - BreakoutTalents";
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Refer top talent to BreakoutTalents and earn €500 per successful hire. Help friends find breakout roles at VC-backed German startups.');
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -216,6 +227,8 @@ const Refer = () => {
           </div>
         </div>
       </div>
+
+      <Footer />
     </main>
   );
 };

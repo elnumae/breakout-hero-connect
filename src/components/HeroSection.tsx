@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { HeroToggle } from "./HeroToggle";
 import { RoleChip } from "./RoleChip";
 import { LogoRow } from "./LogoRow";
+import { Footer } from "./Footer";
 
 const roles = [
   "Account Executive",
@@ -176,6 +177,8 @@ export const HeroSection = () => {
           </Link>
         </div>
       </div>
+
+      <Footer />
     </main>
   );
 };
