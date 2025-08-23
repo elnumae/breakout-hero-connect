@@ -168,7 +168,7 @@ export const HeroSection = () => {
                       disabled={form.formState.isSubmitting}
                       className="h-14 px-8 text-lg font-semibold bg-secondary/80 backdrop-blur-sm hover:bg-secondary border border-border hover:border-accent hover:text-accent transition-all duration-200 hover:scale-105 disabled:opacity-50"
                     >
-                      {form.formState.isSubmitting ? "Submitting..." : "Find a Breakout Role"}
+                      {form.formState.isSubmitting ? "Submitting..." : "Find me a Breakout Role"}
                     </Button>
                   </div>
                 </form>
