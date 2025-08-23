@@ -14,11 +14,10 @@ import { useToast } from "@/hooks/use-toast";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
 
 const roles = [
-  "Account Executive",
+  "Founding Engineer",
   "Founders Associate", 
-  "GTM Manager",
   "Product Manager",
-  "Engineer"
+  "Go-To-Market"
 ];
 
 const TalentSchema = z.object({
