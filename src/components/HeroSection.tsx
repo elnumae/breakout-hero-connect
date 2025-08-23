@@ -215,6 +215,9 @@ export const HeroSection = () => {
                 </form>
               </Form>
 
+              {/* Logo Row - After talents form */}
+              <LogoRow />
+
               {/* Refer Link */}
               <div className="text-center mt-8">
                 <Link 
@@ -227,9 +230,6 @@ export const HeroSection = () => {
             </>
           ) : (
             <>
-              {/* Logo Row - Show first in startups section */}
-              <LogoRow />
-
               <h1 className="text-5xl md:text-7xl font-semibold leading-tight mb-6">
                 Hire your next <span className="text-electric-green">10x operator</span>{" "}
                 with AI-first speed.
@@ -263,6 +263,9 @@ export const HeroSection = () => {
                   </a>
                 </Button>
               </div>
+
+              {/* Logo Row - After startup CTA buttons */}
+              <LogoRow />
 
               {/* How It Works Section */}
               <div className="max-w-5xl mx-auto mb-16">
