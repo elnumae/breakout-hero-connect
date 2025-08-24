@@ -268,7 +268,7 @@ export const HeroSection = () => {
               <LogoRow />
 
               {/* How It Works Section */}
-              <div className="max-w-5xl mx-auto mb-16">
+              <div className="max-w-5xl mx-auto mb-16 mt-24">
                 <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">How It Works</h2>
                 
                 <div className="grid md:grid-cols-3 gap-8 md:gap-12">
