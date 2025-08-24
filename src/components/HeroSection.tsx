@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -38,6 +38,7 @@ type StartupForm = z.infer<typeof StartupSchema>;
 export const HeroSection = () => {
   const [userType, setUserType] = useState("For Talents");
   const { toast } = useToast();
+  const jdInputRef = useRef<HTMLInputElement>(null);
   
   const form = useForm<TalentForm>({
     resolver: zodResolver(TalentSchema),
@@ -57,6 +58,13 @@ export const HeroSection = () => {
 
   const handleRoleChipClick = (role: string) => {
     form.setValue("role", role);
+  };
+
+  const handleHireBreakoutTalents = () => {
+    setUserType("For Startups");
+    setTimeout(() => {
+      jdInputRef.current?.focus();
+    }, 100);
   };
 
   const onSubmit = async (values: TalentForm) => {
@@ -243,6 +251,7 @@ export const HeroSection = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
                 <Button
                   size="lg"
+                  onClick={handleHireBreakoutTalents}
                   className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105"
                 >
                   Hire Breakout Talents
@@ -315,6 +324,7 @@ export const HeroSection = () => {
                       <FormItem>
                         <FormControl>
                           <Input
+                            ref={jdInputRef}
                             type="url"
                             placeholder="Share link to JD"
                             className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
