@@ -13,7 +13,7 @@ const ReferralSchema = z.object({
   email: z.string().email("Enter a valid email"),
   linkedinUrl: z.string()
     .url("Enter a valid URL")
-    .refine(v => v.includes("linkedin.com"), "Must be a LinkedIn URL"),
+    .refine(v => v.includes("linkedin.com/in/"), "Must be a LinkedIn URL"),
   talentContact: z.string().optional()
 });
 
@@ -33,11 +33,49 @@ const Refer = () => {
 
   // Update page title and meta description for this page
   useEffect(() => {
-    document.title = "Refer & Earn €500 - BreakoutTalents";
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'Refer top talent to BreakoutTalents and earn €500 per successful hire. Help friends find breakout roles at VC-backed German startups.');
-    }
+    document.title = "Refer Talent – Earn €500 | BreakoutTalents (AI Headhunter)";
+    const ensureTag = (selector: string, create: () => Element) => {
+      return document.querySelector(selector) || create();
+    };
+    const metaDescription = ensureTag('meta[name="description"]', () => {
+      const m = document.createElement("meta");
+      m.setAttribute("name", "description");
+      document.head.appendChild(m);
+      return m;
+    }) as HTMLMetaElement;
+    metaDescription.setAttribute('content', 'Refer top talent to an AI headhunter and earn €500 per successful hire. BreakoutTalents connects operators with VC-backed startups in Germany.');
+
+    const canonical = ensureTag('link[rel="canonical"]', () => {
+      const l = document.createElement("link");
+      l.setAttribute("rel", "canonical");
+      document.head.appendChild(l);
+      return l;
+    }) as HTMLLinkElement;
+    canonical.setAttribute("href", `${window.location.origin}/refer`);
+
+    const ogTitle = ensureTag('meta[property="og:title"]', () => {
+      const m = document.createElement("meta");
+      m.setAttribute("property", "og:title");
+      document.head.appendChild(m);
+      return m;
+    }) as HTMLMetaElement;
+    ogTitle.setAttribute("content", "Refer Talent – Earn €500 | BreakoutTalents");
+
+    const ogDesc = ensureTag('meta[property="og:description"]', () => {
+      const m = document.createElement("meta");
+      m.setAttribute("property", "og:description");
+      document.head.appendChild(m);
+      return m;
+    }) as HTMLMetaElement;
+    ogDesc.setAttribute("content", "Refer top talent to an AI headhunter and earn €500 when hired.");
+
+    const ogUrl = ensureTag('meta[property="og:url"]', () => {
+      const m = document.createElement("meta");
+      m.setAttribute("property", "og:url");
+      document.head.appendChild(m);
+      return m;
+    }) as HTMLMetaElement;
+    ogUrl.setAttribute("content", `${window.location.origin}/refer`);
   }, []);
 
   const onSubmit = async (values: ReferralForm) => {

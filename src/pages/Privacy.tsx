@@ -1,6 +1,28 @@
 import { Footer } from "@/components/Footer";
+import { useEffect } from "react";
 
 const Privacy = () => {
+  useEffect(() => {
+    document.title = "Privacy Policy – BreakoutTalents (AI Headhunter)";
+    const ensureTag = (selector: string, create: () => Element) => {
+      return document.querySelector(selector) || create();
+    };
+    const metaDescription = ensureTag('meta[name="description"]', () => {
+      const m = document.createElement("meta");
+      m.setAttribute("name", "description");
+      document.head.appendChild(m);
+      return m;
+    }) as HTMLMetaElement;
+    metaDescription.setAttribute("content", "BreakoutTalents privacy policy: data we collect, how we use it, GDPR rights, and contact.");
+
+    const canonical = ensureTag('link[rel="canonical"]', () => {
+      const l = document.createElement("link");
+      l.setAttribute("rel", "canonical");
+      document.head.appendChild(l);
+      return l;
+    }) as HTMLLinkElement;
+    canonical.setAttribute("href", `${window.location.origin}/privacy`);
+  }, []);
   return (
     <div className="min-h-screen bg-hero-gradient relative overflow-hidden">
       {/* Background Effects */}

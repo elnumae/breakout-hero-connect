@@ -24,7 +24,7 @@ const TalentSchema = z.object({
   role: z.string().min(1, "Please enter or select a role"),
   linkedinUrl: z.string()
     .url("Enter a valid LinkedIn URL")
-    .refine(v => v.includes("linkedin.com"), "Must be a LinkedIn URL")
+    .refine(v => v.includes("linkedin.com/in/"), "Must be a LinkedIn URL")
 });
 
 const StartupSchema = z.object({

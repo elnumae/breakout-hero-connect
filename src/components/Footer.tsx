@@ -36,8 +36,10 @@ const Footer = () => {
               rel="noopener noreferrer"
               className="text-primary hover:text-primary/80 font-medium transition-colors"
             >
-              Emanuel
+              E
             </a>
+            {" & "}
+            <span className="text-primary font-medium">J</span>
           </div>
         </div>
       </div>
