@@ -20,7 +20,7 @@ const Footer = () => {
               Privacy Policy
             </a>
             <a 
-              href="mailto:hi@emanuelmorhard.com"
+              href="mailto:hi@breakouttalents.com"
               className="text-muted-foreground hover:text-primary transition-colors"
             >
               Contact
