@@ -1,7 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent } from "@/components/ui/card";
 import { Footer } from "@/components/Footer";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -16,7 +14,6 @@ const ReferralSchema = z.object({
   linkedinUrl: z.string()
     .url("Enter a valid URL")
     .refine(v => v.includes("linkedin.com/in/"), "Must be a LinkedIn URL"),
-  whyExceptional: z.string().min(10, "Please provide a meaningful explanation (at least 10 characters)"),
   talentContact: z.string().optional()
 });
 
@@ -30,7 +27,6 @@ const Refer = () => {
     defaultValues: {
       email: "",
       linkedinUrl: "",
-      whyExceptional: "",
       talentContact: ""
     }
   });
@@ -121,40 +117,38 @@ const Refer = () => {
         {/* Hero Section */}
         <div className="max-w-4xl mx-auto text-center mb-16">
           <h1 className="text-5xl md:text-7xl font-semibold leading-tight mb-6">
-            Who are the three most talented people you know?
+            Refer top talent. Earn{" "}
+            <span className="text-electric-green">€500</span>{" "}
+            with BreakoutTalents.
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
-            Refer them in 2 minutes and earn rewards when they're hired at top VC-backed startups in Germany.
+            Know a smart friend looking for a new opportunity? Refer them to BreakoutTalents. If they get hired at one of our VC-backed startup partners in Germany, you'll earn a €500 referral bonus.
           </p>
+
+          <Button
+            size="lg"
+            className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105 mb-16"
+          >
+            👉 Refer a Friend Now
+          </Button>
         </div>
 
-        {/* Key Benefits Block */}
+        {/* Stats Row */}
         <div className="max-w-5xl mx-auto mb-20">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <Card className="bg-card/50 backdrop-blur-sm border-border hover:border-primary/30 transition-all duration-200">
-              <CardContent className="p-8 text-center">
-                <div className="text-4xl mb-4">💶</div>
-                <div className="text-2xl font-bold text-electric-green mb-2">€500</div>
-                <p className="text-muted-foreground">per successful hire</p>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-card/50 backdrop-blur-sm border-border hover:border-primary/30 transition-all duration-200">
-              <CardContent className="p-8 text-center">
-                <div className="text-4xl mb-4">⏱️</div>
-                <div className="text-2xl font-bold text-electric-green mb-2">2 minutes</div>
-                <p className="text-muted-foreground">to refer</p>
-              </CardContent>
-            </Card>
-            
-            <Card className="bg-card/50 backdrop-blur-sm border-border hover:border-primary/30 transition-all duration-200">
-              <CardContent className="p-8 text-center">
-                <div className="text-4xl mb-4">♾️</div>
-                <div className="text-2xl font-bold text-electric-green mb-2">Unlimited referrals</div>
-                <p className="text-muted-foreground">earn your right to refer more</p>
-              </CardContent>
-            </Card>
+            <div className="text-center">
+              <div className="text-3xl font-black text-electric-green mb-2">€500</div>
+              <p className="text-sm text-muted-foreground">per successful hire</p>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-black text-electric-green mb-2">2</div>
+              <p className="text-sm text-muted-foreground">minutes to refer</p>
+            </div>
+            <div className="text-center">
+              <div className="text-3xl font-black text-electric-green mb-2">∞</div>
+              <p className="text-sm text-muted-foreground">unlimited referrals allowed</p>
+            </div>
           </div>
         </div>
 
@@ -167,9 +161,9 @@ const Refer = () => {
               <div className="w-12 h-12 bg-electric-green text-background rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
                 1
               </div>
-              <h3 className="text-xl font-semibold mb-3">Submit Talent</h3>
+              <h3 className="text-xl font-semibold mb-3">Submit a Talent</h3>
               <p className="text-muted-foreground">
-                Share their LinkedIn profile and why they're exceptional.
+                Drop their LinkedIn profile + your email via BreakoutTalents.
               </p>
             </div>
             
@@ -177,65 +171,37 @@ const Refer = () => {
               <div className="w-12 h-12 bg-electric-green text-background rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
                 2
               </div>
-              <h3 className="text-xl font-semibold mb-3">We Do the Work</h3>
+              <h3 className="text-xl font-semibold mb-3">BreakoutTalents Does the Work</h3>
               <p className="text-muted-foreground">
                 We connect them with Germany's fastest-growing VC-backed startups.
               </p>
             </div>
             
             <div className="text-center">
-              <div className="w-12 h-12 bg-electric-green text-background rounded-full flex items-center justify-center text-xl font-bold mx-4 mb-4">
+              <div className="w-12 h-12 bg-electric-green text-background rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
                 3
               </div>
               <h3 className="text-xl font-semibold mb-3">You Get Paid</h3>
               <p className="text-muted-foreground">
-                €500 referral bonus when they're hired and pass probation.
+                If they're hired and pass probation, BreakoutTalents pays you €500 referral bonus.
               </p>
             </div>
           </div>
 
-        </div>
-
-        {/* Why Refer */}
-        <div className="max-w-4xl mx-auto mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">Why Refer with BreakoutTalents?</h2>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="flex items-start space-x-4">
-              <div className="text-2xl">💰</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Earn €500 per successful hire</h3>
-              </div>
-            </div>
-            
-            <div className="flex items-start space-x-4">
-              <div className="text-2xl">🚀</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Help friends grow into breakout roles at VC-backed startups</h3>
-              </div>
-            </div>
-            
-            <div className="flex items-start space-x-4">
-              <div className="text-2xl">🔑</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">No extra work required — BreakoutTalents handles sourcing, intros, and hiring</h3>
-              </div>
-            </div>
-            
-            <div className="flex items-start space-x-4">
-              <div className="text-2xl">🌍</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Be part of Germany's startup ecosystem by connecting talent with top founders</h3>
-              </div>
-            </div>
+          <div className="text-center mt-12">
+            <Button
+              size="lg"
+              className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105"
+            >
+              👉 Start Referring with BreakoutTalents
+            </Button>
           </div>
         </div>
 
         {/* Referral Form */}
         <div className="max-w-2xl mx-auto mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Refer a Friend</h2>
-          <p className="text-center text-muted-foreground mb-2">Start with up to 3 referrals.</p>
-          <p className="text-center text-sm text-muted-foreground mb-8">Depending on talent fit and performance, you'll unlock more referrals.</p>
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Referral Form</h2>
+          <p className="text-center text-muted-foreground mb-8">Simple & Short</p>
           
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -277,23 +243,6 @@ const Refer = () => {
               
               <FormField
                 control={form.control}
-                name="whyExceptional"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Tell us in 1 sentence why this person is exceptional (e.g., top achievement, why they're a 1% breakout talent in their network)"
-                        className="min-h-[100px] text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20 resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
                 name="talentContact"
                 render={({ field }) => (
                   <FormItem>
@@ -324,6 +273,41 @@ const Refer = () => {
           </Form>
         </div>
 
+        {/* Why Refer */}
+        <div className="max-w-4xl mx-auto mb-20">
+          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">Why Refer with BreakoutTalents?</h2>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="flex items-start space-x-4">
+              <div className="text-2xl">💰</div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Earn €500 per successful hire</h3>
+              </div>
+            </div>
+            
+            <div className="flex items-start space-x-4">
+              <div className="text-2xl">🚀</div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Help friends grow into breakout roles at VC-backed startups</h3>
+              </div>
+            </div>
+            
+            <div className="flex items-start space-x-4">
+              <div className="text-2xl">🔑</div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">No extra work required — BreakoutTalents handles sourcing, intros, and hiring</h3>
+              </div>
+            </div>
+            
+            <div className="flex items-start space-x-4">
+              <div className="text-2xl">🌍</div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Be part of Germany's startup ecosystem by connecting talent with top founders</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+
         {/* Final CTA Section */}
         <div className="max-w-4xl mx-auto">
           <div className="bg-gradient-to-r from-primary/20 to-electric-green/20 rounded-2xl p-8 md:p-12 text-center backdrop-blur-sm border border-primary/20">
@@ -338,7 +322,6 @@ const Refer = () => {
             <Button
               size="lg"
               className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105"
-              onClick={() => document.querySelector('form')?.scrollIntoView({ behavior: 'smooth' })}
             >
               👉 Refer a Talent Now
             </Button>
