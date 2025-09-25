@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Textarea } from "@/components/ui/textarea";
 import { Footer } from "@/components/Footer";
+import TextareaAutosize from "react-textarea-autosize";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -16,7 +16,7 @@ const ReferralSchema = z.object({
     .url("Enter a valid URL")
     .refine(v => v.includes("linkedin.com/in/"), "Must be a LinkedIn URL"),
   talentContact: z.string().optional(),
-  talentReason: z.string().min(1, "Please tell us why your friend is breakout talent")
+  breakoutReason: z.string().min(1, "Please tell us why your friend is breakout talent")
 });
 
 type ReferralForm = z.infer<typeof ReferralSchema>;
@@ -30,7 +30,7 @@ const Refer = () => {
       email: "",
       linkedinUrl: "",
       talentContact: "",
-      talentReason: ""
+      breakoutReason: ""
     }
   });
 
@@ -86,7 +86,7 @@ const Refer = () => {
       referrer_email: values.email.trim().toLowerCase(),
       talent_linkedin_url: values.linkedinUrl.trim(),
       talent_contact: values.talentContact?.trim() || null,
-      talent_reason: values.talentReason.trim(),
+      talent_reason: values.breakoutReason.trim(),
       user_agent: navigator.userAgent,
     };
 
@@ -200,23 +200,16 @@ const Refer = () => {
               <div className="flex flex-col space-y-1">
                 <FormField
                   control={form.control}
-                  name="talentReason"
+                  name="breakoutReason"
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <Textarea
+                        <TextareaAutosize
                           placeholder="Tell us in 1 sentence why your friend is the 1% breakout talent in your network (e.g., top achievements)."
-                          className="px-4 py-3 text-sm leading-tight text-foreground placeholder:text-muted-foreground bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20 resize-none overflow-hidden min-h-[44px]"
-                          rows={1}
+                          className="w-full rounded-md bg-card/50 backdrop-blur-sm border border-border px-4 py-3 text-sm leading-tight text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/50 resize-none"
+                          minRows={2}
+                          maxRows={5}
                           {...field}
-                          onInput={(e) => {
-                            const target = e.target as HTMLTextAreaElement;
-                            target.style.height = 'auto';
-                            const scrollHeight = target.scrollHeight;
-                            const maxHeight = 44 * 4; // 4 rows max
-                            target.style.height = Math.min(scrollHeight, maxHeight) + 'px';
-                            field.onChange(e);
-                          }}
                         />
                       </FormControl>
                       <FormMessage className="text-sm leading-tight" />
