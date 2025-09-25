@@ -12,12 +12,13 @@ import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { ArrowRight } from "lucide-react";
 
 const roles = [
-  "Founding Engineer",
-  "Founders Associate", 
-  "Product Manager",
-  "Go-To-Market"
+  "Backend Engineer",
+  "Forward Deployed Engineer", 
+  "Account Executive",
+  "CSM"
 ];
 
 const TalentSchema = z.object({
@@ -136,13 +137,20 @@ export const HeroSection = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <div className="max-w-md mx-auto">
+                          <div className="max-w-md mx-auto relative">
                             <Input
                               type="text"
                               placeholder="Enter a role"
-                              className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                              className="h-16 pr-16 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
                               {...field}
                             />
+                            <Button
+                              type="submit"
+                              size="icon"
+                              className="absolute top-2 right-2 w-12 h-12 rounded-full bg-electric-green hover:bg-electric-green/90 text-background transition-all duration-200"
+                            >
+                              <ArrowRight className="w-5 h-5" />
+                            </Button>
                           </div>
                         </FormControl>
                         <FormMessage className="text-center" />
