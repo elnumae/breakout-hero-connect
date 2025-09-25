@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Footer } from "@/components/Footer";
-import TextareaAutosize from "react-textarea-autosize";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -204,11 +203,10 @@ const Refer = () => {
                   render={({ field }) => (
                     <FormItem>
                       <FormControl>
-                        <TextareaAutosize
+                        <textarea
                           placeholder="Tell us in 1 sentence why your friend is the 1% breakout talent in your network (e.g., top achievements)."
                           className="w-full rounded-md bg-card/50 backdrop-blur-sm border border-border px-4 py-3 text-sm leading-tight text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/50 resize-none"
-                          minRows={2}
-                          maxRows={5}
+                          rows={3}
                           {...field}
                         />
                       </FormControl>
