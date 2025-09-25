@@ -132,7 +132,7 @@ const Refer = () => {
         </div>
 
         {/* Referral Form */}
-        <div className="max-w-2xl mx-auto mb-20">
+        <div id="referral-form" className="max-w-2xl mx-auto mb-20">
           <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Referral Form — Simple & Short</h2>
           
           <Form {...form}>
@@ -247,6 +247,11 @@ const Refer = () => {
           </div>
         </div>
 
+        {/* How it works header */}
+        <div className="max-w-4xl mx-auto text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold">How it works</h2>
+        </div>
+
         {/* Referral Flow Section */}
         <div className="max-w-5xl mx-auto mb-20">
           <div className="grid md:grid-cols-3 gap-8 md:gap-12">
@@ -280,6 +285,22 @@ const Refer = () => {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* CTA Button */}
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          <Button
+            size="lg"
+            onClick={() => {
+              const referralForm = document.getElementById('referral-form');
+              if (referralForm) {
+                referralForm.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105"
+          >
+            👉 Start Referring with BreakoutTalents
+          </Button>
         </div>
 
         {/* Closing Section */}
