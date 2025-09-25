@@ -6,7 +6,6 @@ import { HeroToggle } from "./HeroToggle";
 import { RoleChip } from "./RoleChip";
 import { LogoRow } from "./LogoRow";
 import { Footer } from "./Footer";
-import { Conversation } from "./VoiceAssistant";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -43,7 +42,6 @@ type StartupForm = z.infer<typeof StartupSchema>;
 export const HeroSection = () => {
   const [userType, setUserType] = useState("For Talents");
   const { toast } = useToast();
-  const navigate = useNavigate();
   const navigate = useNavigate();
   const jdInputRef = useRef<HTMLInputElement>(null);
 
