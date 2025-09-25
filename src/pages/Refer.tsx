@@ -314,11 +314,11 @@ const Refer = () => {
         {/* Closing Section */}
         <div className="max-w-4xl mx-auto mb-20">
           <div className="text-center">
-            <h2 className="text-3xl md:text-5xl font-black mb-6">
+            <h2 className="text-3xl md:text-5xl font-sans font-black mb-6">
               Refer top talent. Earn €500 with BreakoutTalents.
             </h2>
             
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            <p className="text-xl font-sans text-muted-foreground mb-8 max-w-2xl mx-auto">
               Know a smart friend looking for a new opportunity? Refer them to BreakoutTalents. If they get hired at one of our VC-backed startup partners in Germany, you'll earn a €500 referral bonus.
             </p>
           </div>
