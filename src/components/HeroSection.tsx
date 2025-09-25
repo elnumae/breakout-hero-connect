@@ -11,6 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Form,
   FormControl,
@@ -148,17 +149,17 @@ export const HeroSection = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <div className="max-w-md mx-auto relative">
-                            <Input
-                              type="text"
-                              placeholder="Enter a role"
-                              className="h-16 pr-16 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                          <div className="max-w-lg mx-auto relative">
+                            <Textarea
+                              //type="text"
+                              placeholder="Enter desired role ..."
+                              className="h-24 pt-6 pl-6 text-sm bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20 resize-none"
                               {...field}
                             />
                             <Button
                               type="submit"
                               size="icon"
-                              className="absolute top-2 right-2 w-12 h-12 rounded-full bg-electric-green hover:bg-electric-green/90 text-background transition-all duration-200"
+                              className="absolute top-5 right-6 w-8 h-8 rounded-full bg-electric-green hover:bg-electric-green/90 text-background transition-all duration-200"
                             >
                               <ArrowRight className="w-5 h-5" />
                             </Button>

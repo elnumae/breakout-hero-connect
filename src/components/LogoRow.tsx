@@ -12,7 +12,7 @@ const logos = [
 
 export const LogoRow = () => {
   return (
-    <div className="mt-16 text-center">
+    <div className="mt-24 text-center">
       <p className="text-sm text-muted-foreground mb-8">
         Connecting talents to startups backed by
       </p>
