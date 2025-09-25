@@ -1,5 +1,5 @@
 import { useState, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { HeroToggle } from "./HeroToggle";
@@ -21,10 +21,7 @@ const roles = [
 ];
 
 const TalentSchema = z.object({
-  role: z.string().min(1, "Please enter or select a role"),
-  linkedinUrl: z.string()
-    .url("Enter a valid LinkedIn URL")
-    .refine(v => v.includes("linkedin.com/in/"), "Must be a LinkedIn URL")
+  role: z.string().min(1, "Please enter or select a role")
 });
 
 const StartupSchema = z.object({
@@ -38,13 +35,13 @@ type StartupForm = z.infer<typeof StartupSchema>;
 export const HeroSection = () => {
   const [userType, setUserType] = useState("For Talents");
   const { toast } = useToast();
+  const navigate = useNavigate();
   const jdInputRef = useRef<HTMLInputElement>(null);
   
   const form = useForm<TalentForm>({
     resolver: zodResolver(TalentSchema),
     defaultValues: {
-      role: "",
-      linkedinUrl: ""
+      role: ""
     }
   });
 
@@ -67,31 +64,9 @@ export const HeroSection = () => {
     }, 100);
   };
 
-  const onSubmit = async (values: TalentForm) => {
-    const payload = {
-      role: values.role.trim(),
-      linkedin_url: values.linkedinUrl.trim(),
-      user_agent: navigator.userAgent,
-    };
-
-    const { error } = await supabase
-      .from("talent_submissions")
-      .insert(payload);
-
-    if (error) {
-      toast({
-        title: "Submission failed",
-        description: error.message,
-        variant: "destructive"
-      });
-      return;
-    }
-
-    toast({
-      title: "Application submitted!",
-      description: "We'll review your profile and get back to you soon."
-    });
-    form.reset();
+  const onSubmit = (values: TalentForm) => {
+    const role = values.role.trim();
+    navigate(`/apply?role=${encodeURIComponent(role)}`);
   };
 
   const onStartupSubmit = async (values: StartupForm) => {
@@ -187,37 +162,15 @@ export const HeroSection = () => {
                     ))}
                   </div>
 
-                  {/* LinkedIn URL Input */}
-                  <FormField
-                    control={form.control}
-                    name="linkedinUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <div className="max-w-md mx-auto">
-                            <Input
-                              type="url"
-                              placeholder="Your LinkedIn profile URL"
-                              className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                              {...field}
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage className="text-center" />
-                      </FormItem>
-                    )}
-                  />
-
                   {/* CTA Button */}
                   <div className="flex justify-center mb-8">
                     <Button
                       type="submit"
                       size="lg"
                       variant="secondary"
-                      disabled={form.formState.isSubmitting}
-                      className="h-14 px-8 text-lg font-semibold bg-secondary/80 backdrop-blur-sm hover:bg-secondary border border-border hover:border-accent hover:text-accent transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                      className="h-14 px-8 text-lg font-semibold bg-secondary/80 backdrop-blur-sm hover:bg-secondary border border-border hover:border-accent hover:text-accent transition-all duration-200 hover:scale-105"
                     >
-                      {form.formState.isSubmitting ? "Submitting..." : "Find me a Breakout Role"}
+                      Continue →
                     </Button>
                   </div>
                 </form>
