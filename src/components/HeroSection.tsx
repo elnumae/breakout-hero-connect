@@ -19,7 +19,7 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { ArrowLeft } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 const roles = [
   "Founding Engineer",
@@ -30,10 +30,6 @@ const roles = [
 
 const TalentSchema = z.object({
   role: z.string().min(1, "Please enter or select a role"),
-  linkedinUrl: z
-    .string()
-    .url("Enter a valid LinkedIn URL")
-    .refine((v) => v.includes("linkedin.com/in/"), "Must be a LinkedIn URL"),
 });
 
 const StartupSchema = z.object({
@@ -48,13 +44,13 @@ export const HeroSection = () => {
   const [userType, setUserType] = useState("For Talents");
   const { toast } = useToast();
   const navigate = useNavigate();
+  const navigate = useNavigate();
   const jdInputRef = useRef<HTMLInputElement>(null);
 
   const form = useForm<TalentForm>({
     resolver: zodResolver(TalentSchema),
     defaultValues: {
       role: "",
-      linkedinUrl: "",
     },
   });
 
@@ -77,31 +73,9 @@ export const HeroSection = () => {
     }, 100);
   };
 
-  const onSubmit = async (values: TalentForm) => {
-    const payload = {
-      role: values.role.trim(),
-      linkedin_url: values.linkedinUrl.trim(),
-      user_agent: navigator.userAgent,
-    };
-
-    const { error } = await supabase.from("talent_submissions").insert(payload);
-
-    if (error) {
-      toast({
-        title: "Submission failed",
-        description: error.message,
-        variant: "destructive",
-      });
-      return;
-    }
-
-    toast({
-      title: "Application submitted!",
-      description: "We'll review your profile and get back to you soon.",
-    });
-
-    // Redirect to conversation page
-    navigate("/conversation");
+  const onSubmit = (values: TalentForm) => {
+    const role = values.role.trim();
+    navigate(`/apply?role=${encodeURIComponent(role)}`);
   };
 
   const onStartupSubmit = async (values: StartupForm) => {
@@ -176,13 +150,20 @@ export const HeroSection = () => {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <div className="max-w-md mx-auto">
+                          <div className="max-w-md mx-auto relative">
                             <Input
                               type="text"
                               placeholder="Enter a role"
-                              className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                              className="h-16 pr-16 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
                               {...field}
                             />
+                            <Button
+                              type="submit"
+                              size="icon"
+                              className="absolute top-2 right-2 w-12 h-12 rounded-full bg-electric-green hover:bg-electric-green/90 text-background transition-all duration-200"
+                            >
+                              <ArrowRight className="w-5 h-5" />
+                            </Button>
                           </div>
                         </FormControl>
                         <FormMessage className="text-center" />
@@ -200,42 +181,6 @@ export const HeroSection = () => {
                         {role}
                       </RoleChip>
                     ))}
-                  </div>
-
-                  {/* LinkedIn URL Input */}
-                  <FormField
-                    control={form.control}
-                    name="linkedinUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <div className="max-w-md mx-auto">
-                            <Input
-                              type="url"
-                              placeholder="Your LinkedIn profile URL"
-                              className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                              {...field}
-                            />
-                          </div>
-                        </FormControl>
-                        <FormMessage className="text-center" />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* CTA Button */}
-                  <div className="flex justify-center mb-8">
-                    <Button
-                      type="submit"
-                      size="lg"
-                      variant="secondary"
-                      disabled={form.formState.isSubmitting}
-                      className="h-14 px-8 text-lg font-semibold bg-secondary/80 backdrop-blur-sm hover:bg-secondary border border-border hover:border-accent hover:text-accent transition-all duration-200 hover:scale-105 disabled:opacity-50"
-                    >
-                      {form.formState.isSubmitting
-                        ? "Submitting..."
-                        : "Find me a Breakout Role"}
-                    </Button>
                   </div>
                 </form>
               </Form>
