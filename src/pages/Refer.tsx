@@ -126,7 +126,7 @@ const Refer = () => {
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
-            Refer in 2 minutes. Earn €500 when they're hired at top VC-backed startups in Germany.
+            Refer in 2 minutes. Earn €500 per referral when they're hired at top VC-backed startups in Germany.
           </p>
         </div>
 
