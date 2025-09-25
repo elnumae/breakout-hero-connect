@@ -162,17 +162,6 @@ export const HeroSection = () => {
                     ))}
                   </div>
 
-                  {/* CTA Button */}
-                  <div className="flex justify-center mb-8">
-                    <Button
-                      type="submit"
-                      size="lg"
-                      variant="secondary"
-                      className="h-14 px-8 text-lg font-semibold bg-secondary/80 backdrop-blur-sm hover:bg-secondary border border-border hover:border-accent hover:text-accent transition-all duration-200 hover:scale-105"
-                    >
-                      Continue →
-                    </Button>
-                  </div>
                 </form>
               </Form>
 
