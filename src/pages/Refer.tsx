@@ -136,77 +136,94 @@ const Refer = () => {
           <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Referral Form — Simple & Short</h2>
           
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="Your email (required → for payout)"
-                        className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <div className="flex flex-col space-y-1">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="Your email (required → for payout)"
+                          className="px-4 py-3 text-sm leading-tight text-foreground placeholder:text-muted-foreground bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-sm leading-tight" />
+                    </FormItem>
+                  )}
+                />
+              </div>
               
-              <FormField
-                control={form.control}
-                name="linkedinUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="url"
-                        placeholder="Talent's LinkedIn URL (required)"
-                        className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="flex flex-col space-y-1">
+                <FormField
+                  control={form.control}
+                  name="linkedinUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          type="url"
+                          placeholder="Talent's LinkedIn URL (required)"
+                          className="px-4 py-3 text-sm leading-tight text-foreground placeholder:text-muted-foreground bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-sm leading-tight" />
+                    </FormItem>
+                  )}
+                />
+              </div>
               
-              <FormField
-                control={form.control}
-                name="talentContact"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Optional: Talent email or phone"
-                        className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="flex flex-col space-y-1">
+                <FormField
+                  control={form.control}
+                  name="talentContact"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Optional: Talent email or phone"
+                          className="px-4 py-3 text-sm leading-tight text-foreground placeholder:text-muted-foreground bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-sm leading-tight" />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-              <FormField
-                control={form.control}
-                name="talentReason"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Textarea
-                        placeholder="Tell us in 1 sentence why your friend is the 1% breakout talent in your network (e.g., top achievements)."
-                        className="min-h-[60px] max-h-[120px] text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20 resize-none"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              <div className="flex flex-col space-y-1">
+                <FormField
+                  control={form.control}
+                  name="talentReason"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Textarea
+                          placeholder="Tell us in 1 sentence why your friend is the 1% breakout talent in your network (e.g., top achievements)."
+                          className="px-4 py-3 text-sm leading-tight text-foreground placeholder:text-muted-foreground bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20 resize-none overflow-hidden min-h-[44px]"
+                          rows={1}
+                          {...field}
+                          onInput={(e) => {
+                            const target = e.target as HTMLTextAreaElement;
+                            target.style.height = 'auto';
+                            const scrollHeight = target.scrollHeight;
+                            const maxHeight = 44 * 4; // 4 rows max
+                            target.style.height = Math.min(scrollHeight, maxHeight) + 'px';
+                            field.onChange(e);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-sm leading-tight" />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               <div className="text-center">
                 <Button
