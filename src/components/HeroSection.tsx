@@ -111,9 +111,9 @@ export const HeroSection = () => {
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-electric-green/10 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
 
-      <div className="relative z-10 container mx-auto px-4 py-12">
+      <div className="relative z-10 container mx-auto px-6 py-8 sm:px-8 sm:py-20 md:px-12 md:py-24 lg:px-16 lg:py-28">
         {/* Header Toggle */}
-        <div className="flex justify-center mb-16">
+        <div className="flex justify-center mb-8 md:mb-12">
           <HeroToggle
             options={["For Startups", "For Talents"]}
             defaultValue="For Talents"
@@ -122,25 +122,27 @@ export const HeroSection = () => {
         </div>
 
         {/* Hero Content */}
-        <div className="max-w-4xl mx-auto text-center">
+        <div className="max-w-4xl mx-auto text-center space-y-6 md:space-y-8">
           {userType === "For Talents" ? (
             <>
-              <h1 className="text-5xl md:text-7xl font-semibold leading-tight mb-6">
-                Your AI-first headhunter for{" "}
-                <span className="text-electric-green">breakout</span>{" "}
-                <span className="text-electric-green">startup jobs</span> in
-                Germany.
-              </h1>
+              <div className="space-y-2">
+                <h1 className="text-4xl md:text-5xl font-semibold leading-tight">
+                  Your AI-first headhunter for{" "}
+                  <span className="text-electric-green">breakout</span>{" "}
+                  <span className="text-electric-green">startup jobs</span> in
+                  Germany.
+                </h1>
+              </div>
 
-              <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
-                We connect top operators with VC-backed startups in Berlin,
-                Munich, and beyond.
-              </p>
+              {/* Logo Row */}
+              <div className="py-2">
+                <LogoRow />
+              </div>
 
               <Form {...form}>
                 <form
                   onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-8"
+                  className="space-y-8 px-4 md:px-0"
                 >
                   {/* Role Input */}
                   <FormField
@@ -151,9 +153,8 @@ export const HeroSection = () => {
                         <FormControl>
                           <div className="max-w-lg mx-auto relative">
                             <Textarea
-                              //type="text"
                               placeholder="Enter desired role ..."
-                              className="h-24 pt-6 pl-6 text-sm bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20 resize-none"
+                              className="h-24 pt-6 pl-6 text-sm bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20 resize-none rounded-xl"
                               {...field}
                             />
                             <Button
@@ -171,7 +172,7 @@ export const HeroSection = () => {
                   />
 
                   {/* Role Chips */}
-                  <div className="flex flex-wrap justify-center gap-3 mb-8">
+                  <div className="flex flex-wrap justify-center gap-3 mb-8 px-4">
                     {roles.map((role) => (
                       <RoleChip
                         key={role}
@@ -184,11 +185,8 @@ export const HeroSection = () => {
                 </form>
               </Form>
 
-              {/* Logo Row - After talents form */}
-              <LogoRow />
-
               {/* Refer Link */}
-              <div className="text-center mt-8">
+              <div className="text-center mt-8 pt-4">
                 <Link
                   to="/refer"
                   className="text-muted-foreground hover:text-muted-foreground/80 text-sm underline underline-offset-4 transition-colors"
@@ -199,7 +197,7 @@ export const HeroSection = () => {
             </>
           ) : (
             <>
-              <h1 className="text-5xl md:text-7xl font-semibold leading-tight mb-6">
+              <h1 className="text-5xl md:text-6xl font-semibold leading-tight mb-6">
                 Hire your next{" "}
                 <span className="text-electric-green">10x operator</span> with
                 AI-first speed.

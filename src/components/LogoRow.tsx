@@ -4,15 +4,19 @@ import sequoiaLogo from "@/assets/Sequoia_Capital.png";
 import cherryVcLogo from "@/assets/cherryvc.png";
 
 const logos = [
-  { name: "General Catalyst", src: generalCatalystLogo, alt: "General Catalyst" },
+  {
+    name: "General Catalyst",
+    src: generalCatalystLogo,
+    alt: "General Catalyst",
+  },
   { name: "Index Ventures", src: indexVenturesLogo, alt: "Index Ventures" },
   { name: "Sequoia Capital", src: sequoiaLogo, alt: "Sequoia Capital" },
-  { name: "Cherry VC", src: cherryVcLogo, alt: "Cherry VC" }
+  { name: "Cherry VC", src: cherryVcLogo, alt: "Cherry VC" },
 ];
 
 export const LogoRow = () => {
   return (
-    <div className="mt-24 text-center">
+    <div className="mt-12 mb-12text-center">
       <p className="text-sm text-muted-foreground mb-8">
         Connecting talents to startups backed by
       </p>
