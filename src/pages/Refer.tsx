@@ -307,7 +307,7 @@ const Refer = () => {
             }}
             className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105"
           >
-            👉 Start Referring with BreakoutTalents
+            👉 Start Referring
           </Button>
         </div>
 
