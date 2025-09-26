@@ -111,7 +111,7 @@ export const HeroSection = () => {
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-electric-green/10 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
 
-      <div className="relative z-10 container mx-auto px-6 py-8 sm:px-8 sm:py-20 md:px-12 md:py-24 lg:px-16 lg:py-28">
+      <div className="relative z-10 container mx-auto px-6 py-8 sm:px-8 sm:py-20 md:px-12 md:py-24 lg:px-16 lg:py-44">
         {/* Header Toggle */}
         <div className="flex justify-center mb-8 md:mb-12">
           <HeroToggle
@@ -132,11 +132,6 @@ export const HeroSection = () => {
                   <span className="text-electric-green">startup jobs</span> in
                   Germany.
                 </h1>
-              </div>
-
-              {/* Logo Row */}
-              <div className="py-2">
-                <LogoRow />
               </div>
 
               <Form {...form}>
@@ -184,6 +179,12 @@ export const HeroSection = () => {
                   </div>
                 </form>
               </Form>
+
+              {/* Logo Row */}
+              <div className="py-2">
+                <LogoRow />
+              </div>
+
 
               {/* Refer Link */}
               <div className="text-center mt-8 pt-4">
