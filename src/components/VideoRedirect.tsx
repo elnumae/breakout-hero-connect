@@ -3,7 +3,7 @@ import { useEffect } from "react";
 const VideoRedirect = () => {
   useEffect(() => {
     // Replace this URL with your actual video link
-    const videoUrl = "https://youtu.be/diyltDnus4c";
+    const videoUrl = "https://youtu.be/DW_djPN4GBc";
 
     // Perform the redirect
     window.location.href = videoUrl;
