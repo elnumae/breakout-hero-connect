@@ -8,6 +8,7 @@ import Refer from "./pages/Refer";
 import Apply from "./pages/Apply";
 import Privacy from "./pages/Privacy";
 import NotFound from "./pages/NotFound";
+import VideoRedirect from "./components/VideoRedirect";
 
 const queryClient = new QueryClient();
 
@@ -23,6 +24,7 @@ const App = () => (
             <Route path="/refer" element={<Refer />} />
             <Route path="/apply" element={<Apply />} />
             <Route path="/privacy" element={<Privacy />} />
+            <Route path="/hackathon-video" element={<VideoRedirect />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
