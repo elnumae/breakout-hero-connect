@@ -74,7 +74,7 @@ export const HeroSection = () => {
 
   const onSubmit = (values: TalentForm) => {
     const role = values.role.trim();
-    navigate(`/apply?role=${encodeURIComponent(role)}`);
+    navigate("/apply", { state: { role } });
   };
 
   const onStartupSubmit = async (values: StartupForm) => {

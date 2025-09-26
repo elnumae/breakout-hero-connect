@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useSearchParams, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { supabase } from "@/integrations/supabase/client";
@@ -30,14 +30,14 @@ const ApplySchema = z.object({
 type ApplyForm = z.infer<typeof ApplySchema>;
 
 const Apply = () => {
-  const [searchParams] = useSearchParams();
+  const location = useLocation();
   const navigate = useNavigate();
   const { toast } = useToast();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
   const [formData, setFormData] = useState<ApplyForm | null>(null);
 
-  const role = searchParams.get("role") || "";
+  const role = location.state?.role || "";
 
   const form = useForm<ApplyForm>({
     resolver: zodResolver(ApplySchema),
@@ -110,11 +110,6 @@ const Apply = () => {
       });
       return;
     }
-
-    toast({
-      title: "Application submitted!",
-      description: "We'll review your profile and get back to you soon.",
-    });
 
     // Store form data for voice chat
     setFormData(values);
@@ -204,208 +199,213 @@ const Apply = () => {
   };
 
   return (
-    <main className="min-h-screen bg-hero-gradient relative overflow-hidden">
+    <div className="min-h-screen flex flex-col bg-hero-gradient relative overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 bg-grid-white/[0.02] bg-[size:60px_60px]" />
       <div className="absolute top-1/4 left-1/4 w-64 h-64 bg-electric-green/10 rounded-full blur-3xl animate-pulse" />
       <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl animate-pulse delay-1000" />
 
-      <div className="relative z-10 container mx-auto px-4 py-12">
-        {/* Back Button */}
-        <div className="mb-8">
-          <Button
-            variant="ghost"
-            onClick={handleBack}
-            className="text-muted-foreground hover:text-foreground"
-          >
-            ← Back
-          </Button>
-        </div>
+      <main className="flex-1 relative z-10">
+        <div className="container mx-auto px-4 py-12">
+          {/* Back Button */}
+          <div className="mb-8">
+            <Button
+              variant="ghost"
+              onClick={handleBack}
+              className="text-muted-foreground hover:text-foreground"
+            >
+              ← Back
+            </Button>
+          </div>
 
-        {!isSubmitted ? (
-          <>
-            {/* Header */}
-            <div className="max-w-2xl mx-auto text-center mb-12">
-              <h1 className="text-4xl md:text-5xl font-semibold leading-tight mb-6">
-                Share Your Details
-              </h1>
+          {!isSubmitted ? (
+            <>
+              {/* Header */}
+              <div className="max-w-2xl mx-auto text-center mb-12">
+                <h1 className="text-4xl md:text-5xl font-semibold leading-tight mb-6">
+                  Share Your Details
+                </h1>
 
-              <p className="text-xl text-muted-foreground mb-8">
-                You're applying for:{" "}
-                <span className="text-electric-green font-medium">{role}</span>
-              </p>
-            </div>
-
-            {/* Application Form */}
-            <div className="max-w-md mx-auto">
-              <Form {...form}>
-                <form
-                  onSubmit={form.handleSubmit(onSubmit)}
-                  className="space-y-6"
-                >
-                  {/* First Name */}
-                  <FormField
-                    control={form.control}
-                    name="firstName"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-foreground">
-                          First Name
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="text"
-                            placeholder="Enter your first name"
-                            className="h-12 bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* LinkedIn URL */}
-                  <FormField
-                    control={form.control}
-                    name="linkedinUrl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel className="text-foreground">
-                          LinkedIn Profile URL
-                        </FormLabel>
-                        <FormControl>
-                          <Input
-                            type="url"
-                            placeholder="https://linkedin.com/in/your-profile"
-                            className="h-12 bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
-                  {/* Hidden Role Field */}
-                  <FormField
-                    control={form.control}
-                    name="role"
-                    render={({ field }) => <input type="hidden" {...field} />}
-                  />
-
-                  {/* Submit Button */}
-                  <Button
-                    type="submit"
-                    size="lg"
-                    disabled={form.formState.isSubmitting}
-                    className="w-full h-12 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 hover:scale-105 disabled:opacity-50"
-                  >
-                    {form.formState.isSubmitting ? "Submitting..." : "Submit"}
-                  </Button>
-                </form>
-              </Form>
-            </div>
-          </>
-        ) : (
-          /* Success State with Voice Chat */
-          <div className="max-w-md mx-auto text-center">
-            <div className="mb-8">
-              <div className="w-16 h-16 bg-electric-green/20 rounded-full flex items-center justify-center mx-auto mb-6">
-                <svg
-                  className="w-8 h-8 text-electric-green"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M5 13l4 4L19 7"
-                  />
-                </svg>
-              </div>
-              <h1 className="text-3xl font-semibold text-foreground mb-4">
-                Application Submitted!
-              </h1>
-              <p className="text-muted-foreground mb-8">
-                We'll review your profile and get back to you soon.
-              </p>
-            </div>
-
-            <div className="p-6 bg-card/30 backdrop-blur-sm border border-border rounded-lg space-y-6">
-              <div>
-                <p className="text-foreground mb-4">
-                  Jump on a quick call to tell us more what you are looking for
+                <p className="text-xl text-muted-foreground mb-8">
+                  You're applying for:{" "}
+                  <span className="text-electric-green font-medium">
+                    {role}
+                  </span>
                 </p>
+              </div>
 
-                {/* Voice Chat Controls */}
-                <div className="flex gap-3 mb-4">
-                  <Button
-                    onClick={startConversation}
-                    disabled={
-                      conversation.status === "connected" || isConnecting
-                    }
-                    size="lg"
-                    className="flex-1 h-12 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 hover:scale-105 disabled:opacity-50"
+              {/* Application Form */}
+              <div className="max-w-md mx-auto">
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-6"
                   >
-                    {isConnecting ? "Connecting..." : "Start Chat"}
-                  </Button>
-
-                  <Button
-                    onClick={stopConversation}
-                    disabled={conversation.status !== "connected"}
-                    variant="destructive"
-                    size="lg"
-                    className="h-12 font-semibold transition-all duration-200 hover:scale-105 disabled:opacity-50"
-                  >
-                    End Call
-                  </Button>
-                </div>
-
-                {/* Voice Chat Status */}
-                <div className="p-4 bg-muted/20 rounded-lg border border-muted-foreground/30">
-                  <div className="flex items-center justify-center gap-2 mb-2">
-                    <div
-                      className={`w-2 h-2 rounded-full ${
-                        conversation.status === "connected"
-                          ? "bg-green-500"
-                          : conversation.status === "connecting"
-                          ? "bg-yellow-500 animate-pulse"
-                          : "bg-gray-500"
-                      }`}
+                    {/* First Name */}
+                    <FormField
+                      control={form.control}
+                      name="firstName"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-foreground">
+                            First Name
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              type="text"
+                              placeholder="Enter your first name"
+                              className="h-12 bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                    <span
-                      className={`text-sm font-medium ${getStatusColor(
-                        conversation.status
-                      )}`}
+
+                    {/* LinkedIn URL */}
+                    <FormField
+                      control={form.control}
+                      name="linkedinUrl"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel className="text-foreground">
+                            LinkedIn Profile URL
+                          </FormLabel>
+                          <FormControl>
+                            <Input
+                              type="url"
+                              placeholder="https://linkedin.com/in/your-profile"
+                              className="h-12 bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+
+                    {/* Hidden Role Field */}
+                    <FormField
+                      control={form.control}
+                      name="role"
+                      render={({ field }) => <input type="hidden" {...field} />}
+                    />
+
+                    {/* Submit Button */}
+                    <Button
+                      type="submit"
+                      size="lg"
+                      disabled={form.formState.isSubmitting}
+                      className="w-full h-12 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 hover:scale-105 disabled:opacity-50"
                     >
-                      Status: {getStatusText(conversation.status)}
-                    </span>
+                      {form.formState.isSubmitting ? "Submitting..." : "Submit"}
+                    </Button>
+                  </form>
+                </Form>
+              </div>
+            </>
+          ) : (
+            /* Success State with Voice Chat */
+            <div className="max-w-md mx-auto text-center">
+              <div className="mb-8">
+                <div className="w-16 h-16 bg-electric-green/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <svg
+                    className="w-8 h-8 text-electric-green"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                </div>
+                <h1 className="text-3xl font-semibold text-foreground mb-4">
+                  Application Submitted!
+                </h1>
+                <p className="text-muted-foreground mb-8">
+                  We'll review your profile and get back to you soon.
+                </p>
+              </div>
+
+              <div className="p-6 bg-card/30 backdrop-blur-sm border border-border rounded-lg space-y-6">
+                <div>
+                  <p className="text-foreground mb-4">
+                    Jump on a quick call to tell us more what you are looking
+                    for
+                  </p>
+
+                  {/* Voice Chat Controls */}
+                  <div className="flex gap-3 mb-4">
+                    <Button
+                      onClick={startConversation}
+                      disabled={
+                        conversation.status === "connected" || isConnecting
+                      }
+                      size="lg"
+                      className="flex-1 h-12 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                    >
+                      {isConnecting ? "Connecting..." : "Start Chat"}
+                    </Button>
+
+                    <Button
+                      onClick={stopConversation}
+                      disabled={conversation.status !== "connected"}
+                      variant="destructive"
+                      size="lg"
+                      className="h-12 font-semibold transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                    >
+                      End Call
+                    </Button>
                   </div>
 
-                  {conversation.status === "connected" && (
-                    <p className="text-sm text-muted-foreground">
-                      Agent is{" "}
-                      {conversation.isSpeaking ? "speaking" : "listening"}
-                    </p>
-                  )}
+                  {/* Voice Chat Status */}
+                  <div className="p-4 bg-muted/20 rounded-lg border border-muted-foreground/30">
+                    <div className="flex items-center justify-center gap-2 mb-2">
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          conversation.status === "connected"
+                            ? "bg-green-500"
+                            : conversation.status === "connecting"
+                            ? "bg-yellow-500 animate-pulse"
+                            : "bg-gray-500"
+                        }`}
+                      />
+                      <span
+                        className={`text-sm font-medium ${getStatusColor(
+                          conversation.status
+                        )}`}
+                      >
+                        Status: {getStatusText(conversation.status)}
+                      </span>
+                    </div>
 
-                  {isConnecting && (
-                    <p className="text-sm text-yellow-600">
-                      Connecting to voice agent...
-                    </p>
-                  )}
+                    {conversation.status === "connected" && (
+                      <p className="text-sm text-muted-foreground">
+                        Agent is{" "}
+                        {conversation.isSpeaking ? "speaking" : "listening"}
+                      </p>
+                    )}
+
+                    {isConnecting && (
+                      <p className="text-sm text-yellow-600">
+                        Connecting to voice agent...
+                      </p>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
+      </main>
 
       <Footer />
-    </main>
+    </div>
   );
 };
 
