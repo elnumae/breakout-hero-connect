@@ -451,7 +451,7 @@ export const HeroSection = () => {
                 We connect you with pre-vetted{" "}
                 <span className="text-electric-green">breakout talent</span>{" "}
                 across Engineering, Product, GTM, and Sales that want to join
-                top German startups.
+                top European startups.
               </p>
 
               {/* CTA Buttons */}
