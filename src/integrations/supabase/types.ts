@@ -21,6 +21,7 @@ export type Database = {
           referrer_email: string
           status: string
           talent_contact: string | null
+          talent_intro_reason: string | null
           talent_linkedin_url: string
           user_agent: string | null
         }
@@ -30,6 +31,7 @@ export type Database = {
           referrer_email: string
           status?: string
           talent_contact?: string | null
+          talent_intro_reason?: string | null
           talent_linkedin_url: string
           user_agent?: string | null
         }
@@ -39,6 +41,7 @@ export type Database = {
           referrer_email?: string
           status?: string
           talent_contact?: string | null
+          talent_intro_reason?: string | null
           talent_linkedin_url?: string
           user_agent?: string | null
         }
