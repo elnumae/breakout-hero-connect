@@ -325,19 +325,15 @@ const Apply = () => {
                   </svg>
                 </div>
                 <h1 className="text-3xl font-semibold text-foreground mb-4">
-                  Application Submitted!
+                  Thanks for providing your personal details!
                 </h1>
                 <p className="text-muted-foreground mb-8">
-                  We'll review your profile and get back to you soon.
+                Let's jump on a quick call so you can tell us more what you are looking for
                 </p>
               </div>
 
               <div className="p-6 bg-card/30 backdrop-blur-sm border border-border rounded-lg space-y-6">
                 <div>
-                  <p className="text-foreground mb-4">
-                    Jump on a quick call to tell us more what you are looking
-                    for
-                  </p>
 
                   {/* Voice Chat Controls */}
                   <div className="flex gap-3 mb-4">
@@ -349,7 +345,7 @@ const Apply = () => {
                       size="lg"
                       className="flex-1 h-12 font-semibold bg-primary hover:bg-primary/90 text-primary-foreground transition-all duration-200 hover:scale-105 disabled:opacity-50"
                     >
-                      {isConnecting ? "Connecting..." : "Start Chat"}
+                      {isConnecting ? "Connecting..." : "Talk to our agent"}
                     </Button>
 
                     <Button

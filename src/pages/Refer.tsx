@@ -14,7 +14,8 @@ const ReferralSchema = z.object({
   linkedinUrl: z.string()
     .url("Enter a valid URL")
     .refine(v => v.includes("linkedin.com/in/"), "Must be a LinkedIn URL"),
-  talentContact: z.string().optional()
+  talentContact: z.string().optional(),
+  breakoutReason: z.string().min(1, "Please tell us why your friend is breakout talent")
 });
 
 type ReferralForm = z.infer<typeof ReferralSchema>;
@@ -27,7 +28,8 @@ const Refer = () => {
     defaultValues: {
       email: "",
       linkedinUrl: "",
-      talentContact: ""
+      talentContact: "",
+      breakoutReason: ""
     }
   });
 
@@ -83,6 +85,7 @@ const Refer = () => {
       referrer_email: values.email.trim().toLowerCase(),
       talent_linkedin_url: values.linkedinUrl.trim(),
       talent_contact: values.talentContact?.trim() || null,
+      talent_reason: values.breakoutReason.trim(),
       user_agent: navigator.userAgent,
     };
 
@@ -117,53 +120,156 @@ const Refer = () => {
         {/* Hero Section */}
         <div className="max-w-4xl mx-auto text-center mb-16">
           <h1 className="text-5xl md:text-7xl font-semibold leading-tight mb-6">
-            Refer top talent. Earn{" "}
-            <span className="text-electric-green">€500</span>{" "}
-            with BreakoutTalents.
+            Who are the three{" "}
+            <span className="text-electric-green">most talented people</span>{" "}
+            you know?
           </h1>
           
           <p className="text-xl md:text-2xl text-muted-foreground mb-12 max-w-3xl mx-auto leading-relaxed">
-            Know a smart friend looking for a new opportunity? Refer them to BreakoutTalents. If they get hired at one of our VC-backed startup partners in Germany, you'll earn a €500 referral bonus.
+            Refer in 2 minutes. Earn €500 per referral when they're hired at top VC-backed startups in Germany.
           </p>
-
-          <Button
-            size="lg"
-            className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105 mb-16"
-          >
-            👉 Refer a Friend Now
-          </Button>
         </div>
 
-        {/* Stats Row */}
+        {/* Referral Form */}
+        <div id="referral-form" className="max-w-2xl mx-auto mb-20">
+          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Referral Form — Simple & Short</h2>
+          
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <div className="flex flex-col space-y-1">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="Your email (required → for payout)"
+                          className="px-4 py-3 text-sm leading-tight text-foreground placeholder:text-muted-foreground bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-sm leading-tight" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              
+              <div className="flex flex-col space-y-1">
+                <FormField
+                  control={form.control}
+                  name="linkedinUrl"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          type="url"
+                          placeholder="Talent's LinkedIn URL (required)"
+                          className="px-4 py-3 text-sm leading-tight text-foreground placeholder:text-muted-foreground bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-sm leading-tight" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              
+              <div className="flex flex-col space-y-1">
+                <FormField
+                  control={form.control}
+                  name="talentContact"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <Input
+                          type="text"
+                          placeholder="Optional: Talent email or phone"
+                          className="px-4 py-3 text-sm leading-tight text-foreground placeholder:text-muted-foreground bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-sm leading-tight" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="flex flex-col space-y-1">
+                <FormField
+                  control={form.control}
+                  name="breakoutReason"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <textarea
+                          placeholder="Tell us in 1 sentence why your friend is the 1% breakout talent in your network (e.g., top achievements)."
+                          className="w-full rounded-md bg-card/50 backdrop-blur-sm border border-border px-4 py-3 text-sm leading-tight text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary/50 resize-none"
+                          rows={3}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage className="text-sm leading-tight" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+
+              <div className="text-center">
+                <Button
+                  type="submit"
+                  size="lg"
+                  disabled={form.formState.isSubmitting}
+                  className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105 disabled:opacity-50"
+                >
+                  {form.formState.isSubmitting ? "Submitting..." : "Submit Referral"}
+                </Button>
+              </div>
+            </form>
+          </Form>
+          
+          <p className="text-sm text-muted-foreground text-center mt-6">
+            Start with up to 3 referrals. Depending on talent fit and performance, you'll unlock more referrals.
+          </p>
+        </div>
+
+        {/* Key Benefits Block */}
         <div className="max-w-5xl mx-auto mb-20">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
-              <div className="text-3xl font-black text-electric-green mb-2">€500</div>
-              <p className="text-sm text-muted-foreground">per successful hire</p>
+              <div className="text-4xl mb-4">💶</div>
+              <h3 className="text-2xl font-bold text-electric-green mb-2">€500</h3>
+              <p className="text-muted-foreground">per successful hire</p>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-black text-electric-green mb-2">2</div>
-              <p className="text-sm text-muted-foreground">minutes to refer</p>
+              <div className="text-4xl mb-4">⏱️</div>
+              <h3 className="text-2xl font-bold text-electric-green mb-2">2 minutes</h3>
+              <p className="text-muted-foreground">to refer</p>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-black text-electric-green mb-2">∞</div>
-              <p className="text-sm text-muted-foreground">unlimited referrals allowed</p>
+              <div className="text-4xl mb-4">♾️</div>
+              <h3 className="text-2xl font-bold text-electric-green mb-2">Unlimited referrals</h3>
+              <p className="text-muted-foreground">earn your right to refer more</p>
             </div>
           </div>
         </div>
 
-        {/* How It Works */}
+        {/* How it works header */}
+        <div className="max-w-4xl mx-auto text-center mb-12">
+          <h2 className="text-3xl md:text-4xl font-bold">How it works</h2>
+        </div>
+
+        {/* Referral Flow Section */}
         <div className="max-w-5xl mx-auto mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">How It Works</h2>
-          
           <div className="grid md:grid-cols-3 gap-8 md:gap-12">
             <div className="text-center">
               <div className="w-12 h-12 bg-electric-green text-background rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
                 1
               </div>
-              <h3 className="text-xl font-semibold mb-3">Submit a Talent</h3>
+              <h3 className="text-xl font-semibold mb-3">Submit Talent</h3>
               <p className="text-muted-foreground">
-                Drop their LinkedIn profile + your email via BreakoutTalents.
+                Share their LinkedIn + 1 sentence why
               </p>
             </div>
             
@@ -171,9 +277,9 @@ const Refer = () => {
               <div className="w-12 h-12 bg-electric-green text-background rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
                 2
               </div>
-              <h3 className="text-xl font-semibold mb-3">BreakoutTalents Does the Work</h3>
+              <h3 className="text-xl font-semibold mb-3">We Do the Work</h3>
               <p className="text-muted-foreground">
-                We connect them with Germany's fastest-growing VC-backed startups.
+                BreakoutTalents connects them with startups
               </p>
             </div>
             
@@ -183,150 +289,41 @@ const Refer = () => {
               </div>
               <h3 className="text-xl font-semibold mb-3">You Get Paid</h3>
               <p className="text-muted-foreground">
-                If they're hired and pass probation, BreakoutTalents pays you €500 referral bonus.
+                €500 once they're hired and pass probation
               </p>
             </div>
           </div>
-
-          <div className="text-center mt-12">
-            <Button
-              size="lg"
-              className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105"
-            >
-              👉 Start Referring with BreakoutTalents
-            </Button>
-          </div>
         </div>
 
-        {/* Referral Form */}
-        <div className="max-w-2xl mx-auto mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold mb-8 text-center">Referral Form</h2>
-          <p className="text-center text-muted-foreground mb-8">Simple & Short</p>
-          
-          <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-              <FormField
-                control={form.control}
-                name="email"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="email"
-                        placeholder="Your email (required → for payout)"
-                        className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="linkedinUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="url"
-                        placeholder="Talent's LinkedIn URL (required)"
-                        className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <FormField
-                control={form.control}
-                name="talentContact"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        placeholder="Optional: Talent Email or Phone"
-                        className="h-14 text-lg bg-card/50 backdrop-blur-sm border-border focus:border-primary/50 focus:ring-2 focus:ring-primary/20"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <div className="text-center">
-                <Button
-                  type="submit"
-                  size="lg"
-                  disabled={form.formState.isSubmitting}
-                  className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105 disabled:opacity-50"
-                >
-                  {form.formState.isSubmitting ? "Submitting..." : "👉 Submit Referral"}
-                </Button>
-              </div>
-            </form>
-          </Form>
+        {/* CTA Button */}
+        <div className="max-w-4xl mx-auto text-center mb-16">
+          <Button
+            size="lg"
+            onClick={() => {
+              const referralForm = document.getElementById('referral-form');
+              if (referralForm) {
+                referralForm.scrollIntoView({ behavior: 'smooth' });
+              }
+            }}
+            className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105"
+          >
+            👉 Start Referring with BreakoutTalents
+          </Button>
         </div>
 
-        {/* Why Refer */}
+        {/* Closing Section */}
         <div className="max-w-4xl mx-auto mb-20">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center">Why Refer with BreakoutTalents?</h2>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="flex items-start space-x-4">
-              <div className="text-2xl">💰</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Earn €500 per successful hire</h3>
-              </div>
-            </div>
-            
-            <div className="flex items-start space-x-4">
-              <div className="text-2xl">🚀</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Help friends grow into breakout roles at VC-backed startups</h3>
-              </div>
-            </div>
-            
-            <div className="flex items-start space-x-4">
-              <div className="text-2xl">🔑</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">No extra work required — BreakoutTalents handles sourcing, intros, and hiring</h3>
-              </div>
-            </div>
-            
-            <div className="flex items-start space-x-4">
-              <div className="text-2xl">🌍</div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Be part of Germany's startup ecosystem by connecting talent with top founders</h3>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Final CTA Section */}
-        <div className="max-w-4xl mx-auto">
-          <div className="bg-gradient-to-r from-primary/20 to-electric-green/20 rounded-2xl p-8 md:p-12 text-center backdrop-blur-sm border border-primary/20">
+          <div className="text-center">
             <h2 className="text-3xl md:text-5xl font-black mb-6">
-              Who's the most talented person you know?
+              Refer top talent. Earn €500 with BreakoutTalents.
             </h2>
             
-            <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
-              Refer them to BreakoutTalents in 2 minutes and get rewarded when they're hired.
+            <p className="text-xl font-sans text-muted-foreground mb-8 max-w-2xl mx-auto">
+              Know a smart friend looking for a new opportunity? Refer them to BreakoutTalents. If they get hired at one of our VC-backed startup partners in Germany, you'll earn a €500 referral bonus.
             </p>
-
-            <Button
-              size="lg"
-              className="h-14 px-8 text-lg font-semibold bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-primary/25 hover:shadow-xl transition-all duration-200 hover:scale-105"
-            >
-              👉 Refer a Talent Now
-            </Button>
           </div>
         </div>
+
       </div>
 
       <Footer />

@@ -20,7 +20,7 @@ export const LogoRow = () => {
       <p className="text-sm text-muted-foreground mb-8">
         Connecting talents to startups backed by
       </p>
-      <div className="flex items-center justify-center gap-12 flex-wrap opacity-60">
+      <div className="flex items-center justify-center gap-20 flex-wrap opacity-60">
         {logos.map((logo) => (
           <div
             key={logo.name}
