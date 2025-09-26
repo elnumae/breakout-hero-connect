@@ -71,6 +71,7 @@ export type Database = {
       talent_submissions: {
         Row: {
           created_at: string
+          first_name: string | null
           id: string
           linkedin_url: string
           role: string
@@ -78,6 +79,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          first_name?: string | null
           id?: string
           linkedin_url: string
           role: string
@@ -85,6 +87,7 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          first_name?: string | null
           id?: string
           linkedin_url?: string
           role?: string

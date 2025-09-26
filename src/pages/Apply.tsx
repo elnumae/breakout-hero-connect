@@ -95,6 +95,7 @@ const Apply = () => {
 
   const onSubmit = async (values: ApplyForm) => {
     const payload = {
+      first_name: values.firstName.trim(),
       role: values.role.trim(),
       linkedin_url: values.linkedinUrl.trim(),
       user_agent: navigator.userAgent,
