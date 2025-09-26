@@ -314,7 +314,7 @@ const Refer = () => {
         {/* Closing Section */}
         <div className="max-w-4xl mx-auto mb-20">
           <div className="text-center">
-            <h2 className="text-3xl md:text-5xl font-sans font-black mb-6">
+            <h2 className="text-3xl md:text-5xl font-black mb-6">
               Refer top talent. Earn €500 with BreakoutTalents.
             </h2>
             
