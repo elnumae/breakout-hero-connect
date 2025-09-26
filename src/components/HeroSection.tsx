@@ -182,7 +182,7 @@ export const HeroSection = () => {
                   Your AI-first headhunter for{" "}
                   <span className="text-electric-green">breakout</span>{" "}
                   <span className="text-electric-green">startup jobs</span> in
-                  Germany.
+                  Europe.
                 </h1>
               </div>
 
@@ -271,7 +271,7 @@ export const HeroSection = () => {
             <span className="inline-block bg-electric-green/20 text-electric-green px-3 py-1 rounded-full text-sm font-semibold mx-1">
               €500 per referral
             </span>
-            {" "}when they're hired at top VC-backed startups in Germany.
+            {" "}when they're hired at top VC-backed startups in Europe.
           </p>
         </div>
             
